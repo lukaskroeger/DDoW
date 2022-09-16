@@ -1,5 +1,6 @@
 ﻿namespace SimilarityService.Models;
 
-public class SimilarArticle
+public class RelatedArticle
 {
+    public string? Title { get; set; }
 }
