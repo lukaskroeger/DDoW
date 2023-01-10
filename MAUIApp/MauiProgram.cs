@@ -1,4 +1,7 @@
-﻿namespace MAUIApp;
+﻿using MAUIApp.Services;
+using MAUIApp.ViewModels;
+
+namespace MAUIApp;
 
 public static class MauiProgram
 {
@@ -12,6 +15,11 @@ public static class MauiProgram
 				fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
 				fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
 			});
+		builder.Services
+			.AddTransient<MainPage>()
+			.AddTransient<MainViewModel>()
+			.AddTransient<DataService>()
+			.AddSingleton<HttpClient>();
 
 		return builder.Build();
 	}
