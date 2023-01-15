@@ -22,12 +22,12 @@
                     <DataTemplate>
                         <Border
                             BackgroundColor="White"
-                            HeightRequest="600"
+                            HeightRequest="550"
                             Stroke="{AppThemeBinding Light=Blue,
                                                      Dark=White}"
                             StrokeShape="RoundRectangle 50"
                             StrokeThickness="4"
-                            WidthRequest="400">
+                            WidthRequest="350">
                             <Grid
                                 Padding="20"
                                 x:DataType="vm:WikiCardViewModel"

@@ -1,3 +1,4 @@
+
 using System.Collections;
 using System.Collections.Specialized;
 using System.Windows.Input;
@@ -39,9 +40,14 @@ public partial class CardStackView : ContentView
             nameof(UpCommand),
             typeof(ICommand),
             typeof(CardStackView));
+
+    private int _cardCounter;
+
     public CardStackView()
     {
         InitializeComponent();
+        _cardCounter = 0;
+        CardStack.GestureRecognizers.Add(GetGestureRecognizer());
     }
 
     public IList ItemSource
@@ -100,6 +106,7 @@ public partial class CardStackView : ContentView
     {
         PanGestureRecognizer gestureRecognizer = new PanGestureRecognizer();
         gestureRecognizer.PanUpdated += PanGestureRecognizer_PanUpdated;
+        gestureRecognizer.TouchPoints = 1;
         return gestureRecognizer;
     }
 
@@ -126,9 +133,9 @@ public partial class CardStackView : ContentView
     private void AddCard(object newCard)
     {
         View cardView = ItemTemplate.CreateContent() as View;
-        cardView.BindingContext = newCard;
-        cardView.GestureRecognizers.Add(GetGestureRecognizer());
-        cardView.ZIndex = int.MaxValue - CardStack.Children.Count;
+        cardView.BindingContext = newCard;        
+        cardView.ZIndex = int.MaxValue - _cardCounter;
+        _cardCounter++;
         CardStack.Add(cardView);
     }
 
@@ -137,11 +144,22 @@ public partial class CardStackView : ContentView
         View card = (View)CardStack.Children.First();
         switch (e.StatusType)
         {            
-            case GestureStatus.Running:                
-                card.TranslationX = e.TotalX;
-                card.TranslationY = e.TotalY;
+            case GestureStatus.Running:
+                if (DeviceInfo.Current.Platform == DevicePlatform.WinUI || DeviceInfo.Current.Platform == DevicePlatform.UWP)
+                {
+                    card.TranslationX = e.TotalX;
+                    card.TranslationY = e.TotalY;
+                }
+                else
+                {
+                    card.TranslationX = e.TotalX;
+                    card.TranslationY = e.TotalY;
+                    //await card.TranslateTo(card.TranslationX+e.TotalX, card.TranslationY+ e.TotalY);
+                }
+                
                 break;
             case GestureStatus.Canceled:
+                break;
             case GestureStatus.Completed:               
                 if (Math.Abs(card.TranslationX) > 250 || Math.Abs(card.TranslationY) > 250)
                 {

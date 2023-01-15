@@ -1,11 +1,12 @@
-﻿namespace MAUIApp;
+﻿using MAUIApp.ViewModels;
+
+namespace MAUIApp;
 
 public partial class App : Application
 {
-	public App()
+	public App(MainPage mainPage)
 	{
 		InitializeComponent();
-
-		MainPage = new AppShell();
+        MainPage = mainPage;
 	}
 }
