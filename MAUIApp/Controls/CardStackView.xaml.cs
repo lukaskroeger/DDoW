@@ -9,7 +9,7 @@ public partial class CardStackView : ContentView
 {
     public static readonly BindableProperty ItemSourceProperty =
         BindableProperty.Create(
-            nameof(ItemSource), 
+            nameof(ItemSource),
             typeof(IList),
             typeof(CardStackView),
             propertyChanged: OnItemSourcePropertyChanged);
@@ -21,21 +21,21 @@ public partial class CardStackView : ContentView
             typeof(CardStackView),
             propertyChanged: OnItemTemplatePropertyChanged);
 
-    
+
     public static readonly BindableProperty LikeCommandProperty =
         BindableProperty.Create(
             nameof(LikeCommand),
             typeof(ICommand),
             typeof(CardStackView));
 
-    
-    public static readonly BindableProperty DislikeCommandProperty = 
+
+    public static readonly BindableProperty DislikeCommandProperty =
         BindableProperty.Create(
             nameof(DislikeCommand),
             typeof(ICommand),
             typeof(CardStackView));
-    
-    public static readonly BindableProperty UpCommandProperty= 
+
+    public static readonly BindableProperty UpCommandProperty =
         BindableProperty.Create(
             nameof(UpCommand),
             typeof(ICommand),
@@ -62,7 +62,7 @@ public partial class CardStackView : ContentView
         set { SetValue(ItemTemplateProperty, value); }
     }
 
-    public ICommand LikeCommand 
+    public ICommand LikeCommand
     {
         get { return (ICommand)GetValue(LikeCommandProperty); }
         set { SetValue(LikeCommandProperty, value); }
@@ -83,7 +83,7 @@ public partial class CardStackView : ContentView
     }
     private static void OnItemSourcePropertyChanged(BindableObject bindable, object oldValue, object newValue)
     {
-        ((CardStackView)bindable).Setup();        
+        ((CardStackView)bindable).Setup();
     }
 
     private static void OnItemTemplatePropertyChanged(BindableObject bindable, object oldValue, object newValue)
@@ -96,7 +96,7 @@ public partial class CardStackView : ContentView
         if (ItemSource is null || ItemTemplate is null)
             return;
         AddCollectionChanged(ItemSource);
-        for (int i = ItemSource.Count-1; i>=0; i--)
+        for (int i = ItemSource.Count - 1; i >= 0; i--)
         {
             AddCard(ItemSource[i]);
         }
@@ -104,7 +104,7 @@ public partial class CardStackView : ContentView
 
     private PanGestureRecognizer GetGestureRecognizer()
     {
-        PanGestureRecognizer gestureRecognizer = new PanGestureRecognizer();
+        PanGestureRecognizer gestureRecognizer = new();
         gestureRecognizer.PanUpdated += PanGestureRecognizer_PanUpdated;
         gestureRecognizer.TouchPoints = 1;
         return gestureRecognizer;
@@ -123,7 +123,7 @@ public partial class CardStackView : ContentView
     {
         if (e.NewItems is not null)
         {
-            foreach (var newItem in e.NewItems)
+            foreach (object newItem in e.NewItems)
             {
                 AddCard(newItem);
             }
@@ -133,7 +133,7 @@ public partial class CardStackView : ContentView
     private void AddCard(object newCard)
     {
         View cardView = ItemTemplate.CreateContent() as View;
-        cardView.BindingContext = newCard;        
+        cardView.BindingContext = newCard;
         cardView.ZIndex = int.MaxValue - _cardCounter;
         _cardCounter++;
         CardStack.Add(cardView);
@@ -143,7 +143,7 @@ public partial class CardStackView : ContentView
     {
         View card = (View)CardStack.Children.First();
         switch (e.StatusType)
-        {            
+        {
             case GestureStatus.Running:
                 if (DeviceInfo.Current.Platform == DevicePlatform.WinUI || DeviceInfo.Current.Platform == DevicePlatform.UWP)
                 {
@@ -156,31 +156,31 @@ public partial class CardStackView : ContentView
                     card.TranslationY = e.TotalY;
                     //await card.TranslateTo(card.TranslationX+e.TotalX, card.TranslationY+ e.TotalY);
                 }
-                
+
                 break;
             case GestureStatus.Canceled:
                 break;
-            case GestureStatus.Completed:               
+            case GestureStatus.Completed:
                 if (Math.Abs(card.TranslationX) > 250 || Math.Abs(card.TranslationY) > 250)
                 {
                     if (Math.Abs(card.TranslationX) > Math.Abs(card.TranslationY))
                     {
-                        if(card.TranslationX < 0)
+                        if (card.TranslationX < 0)
                         {
-                            if(DislikeCommand is null)
+                            if (DislikeCommand is null)
                             {
                                 await card.TranslateTo(0, 0, 250, Easing.SinIn);
                                 return;
                             }
-                            await card.TranslateTo(-this.Width * 2,0,250, Easing.SinIn);
+                            await card.TranslateTo(-this.Width * 2, 0, 250, Easing.SinIn);
                             DislikeCommand.Execute(card.BindingContext);
                         }
-                        else if(card.TranslationX > 0)
+                        else if (card.TranslationX > 0)
                         {
-                            if(LikeCommand is null)
+                            if (LikeCommand is null)
                             {
                                 await card.TranslateTo(0, 0, 250, Easing.SinIn);
-                                return ;
+                                return;
                             }
                             await card.TranslateTo(this.Width * 2, 0, 250, Easing.SinIn);
                             LikeCommand.Execute(card.BindingContext);
@@ -188,9 +188,9 @@ public partial class CardStackView : ContentView
                     }
                     else
                     {
-                        if(card.TranslationY < 0)
+                        if (card.TranslationY < 0)
                         {
-                            if(UpCommand is null)
+                            if (UpCommand is null)
                             {
                                 await card.TranslateTo(0, 0, 250, Easing.SinIn);
                                 return;

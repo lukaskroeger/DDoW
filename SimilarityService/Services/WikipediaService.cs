@@ -47,7 +47,7 @@ public class WikipediaService : IWikipediaService
             {
                 result = await response.Content.ReadFromJsonAsync<ParseResponse>();
             }
-            catch(JsonException ex)
+            catch (JsonException ex)
             {
                 _logger.LogError(ex, "Json Content: \n {0}", await response.Content.ReadAsStringAsync());
             }

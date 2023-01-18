@@ -1,9 +1,4 @@
 ﻿using MAUIApp.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MAUIApp.ViewModels;
 public class WikiCardViewModel
@@ -14,6 +9,6 @@ public class WikiCardViewModel
         _article = article;
     }
     public WikiArticle Article { get => _article; }
-    public string ArticleId { get => _article.Id; }  
-    public string Text { get => _article.Text; } 
+    public string ArticleId { get => _article.Id; }
+    public string Text { get => _article.Text; }
 }

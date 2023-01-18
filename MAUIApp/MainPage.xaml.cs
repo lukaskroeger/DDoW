@@ -4,10 +4,10 @@ namespace MAUIApp;
 
 public partial class MainPage : ContentPage
 {
-	public MainPage(MainViewModel viewModel)
-	{
+    public MainPage(MainViewModel viewModel)
+    {
         BindingContext = viewModel;
-        InitializeComponent();				
-	}	
+        InitializeComponent();
+    }
 }
 

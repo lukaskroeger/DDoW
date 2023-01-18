@@ -7,46 +7,44 @@
     xmlns:vm="clr-namespace:MAUIApp.ViewModels"
     x:DataType="vm:MainViewModel">
 
-    <ScrollView>
-        <VerticalStackLayout
-            Padding="30,0"
-            Spacing="25"
-            VerticalOptions="Center">
+    <VerticalStackLayout
+        Padding="30,0"
+        Spacing="25"
+        VerticalOptions="Center">
 
-            <controls:CardStackView
-                DislikeCommand="{Binding DislikeCommand}"
-                ItemSource="{Binding Items}"
-                LikeCommand="{Binding LikeCommand}"
-                UpCommand="{Binding UpCommand}">
-                <controls:CardStackView.ItemTemplate>
-                    <DataTemplate>
-                        <Border
-                            BackgroundColor="White"
-                            HeightRequest="550"
-                            Stroke="{AppThemeBinding Light=Blue,
-                                                     Dark=White}"
-                            StrokeShape="RoundRectangle 50"
-                            StrokeThickness="4"
-                            WidthRequest="350">
-                            <Grid
-                                Padding="20"
-                                x:DataType="vm:WikiCardViewModel"
-                                RowDefinitions="Auto,*">
-                                <Label
-                                    Grid.Row="0"
-                                    FontSize="Large"
-                                    Text="{Binding ArticleId}"
-                                    TextColor="Black" />
-                                <Label
-                                    Grid.Row="1"
-                                    Text="{Binding Text}"
-                                    TextColor="Black" />
-                            </Grid>
-                        </Border>
-                    </DataTemplate>
-                </controls:CardStackView.ItemTemplate>
-            </controls:CardStackView>
-        </VerticalStackLayout>
-    </ScrollView>
+        <controls:CardStackView
+            DislikeCommand="{Binding DislikeCommand}"
+            ItemSource="{Binding Items}"
+            LikeCommand="{Binding LikeCommand}"
+            UpCommand="{Binding UpCommand}">
+            <controls:CardStackView.ItemTemplate>
+                <DataTemplate>
+                    <Border
+                        BackgroundColor="White"
+                        HeightRequest="550"
+                        Stroke="{AppThemeBinding Light=Blue,
+                                                 Dark=White}"
+                        StrokeShape="RoundRectangle 50"
+                        StrokeThickness="4"
+                        WidthRequest="350">
+                        <Grid
+                            Padding="20"
+                            x:DataType="vm:WikiCardViewModel"
+                            RowDefinitions="Auto,*">
+                            <Label
+                                Grid.Row="0"
+                                FontSize="Large"
+                                Text="{Binding ArticleId}"
+                                TextColor="Black" />
+                            <Label
+                                Grid.Row="1"
+                                Text="{Binding Text}"
+                                TextColor="Black" />
+                        </Grid>
+                    </Border>
+                </DataTemplate>
+            </controls:CardStackView.ItemTemplate>
+        </controls:CardStackView>
+    </VerticalStackLayout>
 
 </ContentPage>
