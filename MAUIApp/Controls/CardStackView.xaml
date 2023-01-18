@@ -4,8 +4,5 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
 
-    <AbsoluteLayout
-        x:Name="CardStack"
-        HeightRequest="600"
-        WidthRequest="400" />
+    <Grid x:Name="CardStack" />
 </ContentView>

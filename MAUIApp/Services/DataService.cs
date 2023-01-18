@@ -16,7 +16,7 @@ public class DataService
     {
         List<string> initial = new() { "API", "Wikipedia", "2022_Russian_invasion_of_Ukraine" };
         List<WikiArticle> articles = new();
-        foreach (var item in initial)
+        foreach (string item in initial)
         {
             WikiArticle article = await GetArticleById(item);
             if (article is not null)
@@ -31,12 +31,12 @@ public class DataService
     {
         List<WikiArticle> articles = new();
         QueryBuilder qb = new();
-        var uri = new Uri($"https://localhost:7105/api/Links/seealso/{articleId}");
+        Uri uri = new($"https://localhost:7105/api/Links/seealso/{articleId}");
         HttpResponseMessage response = await _httpClient.GetAsync(uri);
         if (response.IsSuccessStatusCode)
         {
-            var result = await response.Content.ReadFromJsonAsync<List<SimilarArticleResponse>>();
-            foreach (var item in result)
+            List<SimilarArticleResponse> result = await response.Content.ReadFromJsonAsync<List<SimilarArticleResponse>>();
+            foreach (SimilarArticleResponse item in result)
             {
                 articles.Add(await GetArticleById(item.Title));
             }
@@ -55,8 +55,8 @@ public class DataService
         qb.Add("exintro", "true");
         qb.Add("titles", id);
         qb.Add("formatversion", "2");
-        var baseUri = new Uri("https://en.wikipedia.org/w/api.php");
-        var uri = new Uri(baseUri, qb.ToQueryString().ToUriComponent());
+        Uri baseUri = new("https://en.wikipedia.org/w/api.php");
+        Uri uri = new(baseUri, qb.ToQueryString().ToUriComponent());
         HttpResponseMessage response = await _httpClient.GetAsync(uri);
         if (response.IsSuccessStatusCode)
         {

@@ -1,5 +1,6 @@
 ﻿using MAUIApp.Services;
 using MAUIApp.ViewModels;
+using Microsoft.Extensions.Configuration;
 
 namespace MAUIApp;
 
@@ -15,6 +16,7 @@ public static class MauiProgram
                 fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
                 fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
             });
+        builder.Configuration.AddConfiguration()
         builder.Services
             .AddTransient<MainPage>()
             .AddTransient<MainViewModel>()

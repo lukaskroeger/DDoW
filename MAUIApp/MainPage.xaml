@@ -7,13 +7,12 @@
     xmlns:vm="clr-namespace:MAUIApp.ViewModels"
     x:DataType="vm:MainViewModel">
 
-    <VerticalStackLayout
-        Padding="30,0"
-        Spacing="25"
-        VerticalOptions="Center">
+    <Grid Padding="10" RowDefinitions="*,30,40">
 
         <controls:CardStackView
+            Grid.Row="0"
             DislikeCommand="{Binding DislikeCommand}"
+            HorizontalOptions="Center"
             ItemSource="{Binding Items}"
             LikeCommand="{Binding LikeCommand}"
             UpCommand="{Binding UpCommand}">
@@ -21,12 +20,10 @@
                 <DataTemplate>
                     <Border
                         BackgroundColor="White"
-                        HeightRequest="550"
                         Stroke="{AppThemeBinding Light=Blue,
                                                  Dark=White}"
                         StrokeShape="RoundRectangle 50"
-                        StrokeThickness="4"
-                        WidthRequest="350">
+                        StrokeThickness="4">
                         <Grid
                             Padding="20"
                             x:DataType="vm:WikiCardViewModel"
@@ -45,6 +42,23 @@
                 </DataTemplate>
             </controls:CardStackView.ItemTemplate>
         </controls:CardStackView>
-    </VerticalStackLayout>
+        <Grid
+            Grid.Row="2"
+            ColumnDefinitions="*,*,*"
+            ColumnSpacing="10">
+            <Button
+                Grid.Column="0"
+                Command="{Binding LikeCommand}"
+                Text="Dislike" />
+            <Button
+                Grid.Column="1"
+                Command="{Binding UpCommand}"
+                Text="Read More" />
+            <Button
+                Grid.Column="2"
+                Command="{Binding DislikeCommand}"
+                Text="Like" />
+        </Grid>
+    </Grid>
 
 </ContentPage>
