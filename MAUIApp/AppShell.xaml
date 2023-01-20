@@ -4,11 +4,16 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:local="clr-namespace:MAUIApp"
+    xmlns:views="clr-namespace:MAUIApp.Views"
     Shell.FlyoutBehavior="Disabled">
 
     <ShellContent
         Title="Daily Dose of Wikipedia"
         ContentTemplate="{DataTemplate local:MainPage}"
         Route="MainPage" />
+    <ShellContent
+        Title="Wikipedia"
+        ContentTemplate="{DataTemplate views:WikipediaWebView}"
+        Route="WikiWebView" />
 
 </Shell>

@@ -102,6 +102,48 @@ public partial class CardStackView : ContentView
         }
     }
 
+    public async Task LikeTopCard()
+    {
+        View card = (View)CardStack.Children.First();
+        await LikeCard(card);
+    }
+    private async Task LikeCard(View card)
+    {
+        await card.TranslateTo(this.Width * 2, 0, 250, Easing.SinIn);
+        LikeCommand?.Execute(card.BindingContext);
+        HideCard(card);
+    }
+
+    public async Task DislikeTopCard()
+    {
+        View card = (View)CardStack.Children.First();
+        await DislikeCard(card);
+    }
+    private async Task DislikeCard(View card)
+    {
+        await card.TranslateTo(-this.Width * 2, 0, 250, Easing.SinIn);
+        DislikeCommand?.Execute(card.BindingContext);
+        HideCard(card);
+    }
+
+    public async Task UpTopCard()
+    {
+        View card = (View)CardStack.Children.First();
+        await UpCard(card);        
+    }
+    private async Task UpCard(View card)
+    {
+        await card.TranslateTo(0, - this.Height * 2, 250, Easing.SinIn);
+        UpCommand?.Execute(card.BindingContext);
+        HideCard(card);
+    }
+
+    private void HideCard(View card)
+    {
+        card.IsVisible = false;
+        CardStack.Children.Remove(card);
+    }
+
     private PanGestureRecognizer GetGestureRecognizer()
     {
         PanGestureRecognizer gestureRecognizer = new();
@@ -145,18 +187,8 @@ public partial class CardStackView : ContentView
         switch (e.StatusType)
         {
             case GestureStatus.Running:
-                if (DeviceInfo.Current.Platform == DevicePlatform.WinUI || DeviceInfo.Current.Platform == DevicePlatform.UWP)
-                {
-                    card.TranslationX = e.TotalX;
-                    card.TranslationY = e.TotalY;
-                }
-                else
-                {
-                    card.TranslationX = e.TotalX;
-                    card.TranslationY = e.TotalY;
-                    //await card.TranslateTo(card.TranslationX+e.TotalX, card.TranslationY+ e.TotalY);
-                }
-
+                card.TranslationX = e.TotalX;
+                card.TranslationY = e.TotalY;
                 break;
             case GestureStatus.Canceled:
                 break;
@@ -172,8 +204,7 @@ public partial class CardStackView : ContentView
                                 await card.TranslateTo(0, 0, 250, Easing.SinIn);
                                 return;
                             }
-                            await card.TranslateTo(-this.Width * 2, 0, 250, Easing.SinIn);
-                            DislikeCommand.Execute(card.BindingContext);
+                            await DislikeCard(card);
                         }
                         else if (card.TranslationX > 0)
                         {
@@ -182,8 +213,7 @@ public partial class CardStackView : ContentView
                                 await card.TranslateTo(0, 0, 250, Easing.SinIn);
                                 return;
                             }
-                            await card.TranslateTo(this.Width * 2, 0, 250, Easing.SinIn);
-                            LikeCommand.Execute(card.BindingContext);
+                            await LikeCard(card);
                         }
                     }
                     else
@@ -195,17 +225,14 @@ public partial class CardStackView : ContentView
                                 await card.TranslateTo(0, 0, 250, Easing.SinIn);
                                 return;
                             }
-                            await card.TranslateTo(0, this.Height * 2, 250, Easing.SinIn);
-                            UpCommand.Execute(card.BindingContext);
+                            await UpCard(card);
                         }
                         else
                         {
                             await card.TranslateTo(0, 0, 250, Easing.SinIn);
                             return;
                         }
-                    }
-                    card.IsVisible = false;
-                    CardStack.Children.Remove(card);
+                    }                    
                 }
                 else
                 {

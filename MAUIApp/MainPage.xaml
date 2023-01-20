@@ -10,6 +10,7 @@
     <Grid Padding="10" RowDefinitions="*,30,40">
 
         <controls:CardStackView
+            x:Name="cardView"
             Grid.Row="0"
             DislikeCommand="{Binding DislikeCommand}"
             HorizontalOptions="Center"
@@ -48,15 +49,15 @@
             ColumnSpacing="10">
             <Button
                 Grid.Column="0"
-                Command="{Binding LikeCommand}"
+                Clicked="DislikeButton_Clicked"
                 Text="Dislike" />
             <Button
                 Grid.Column="1"
-                Command="{Binding UpCommand}"
+                Clicked="UpButton_Clicked"
                 Text="Read More" />
             <Button
                 Grid.Column="2"
-                Command="{Binding DislikeCommand}"
+                Clicked="LikeButton_Clicked"
                 Text="Like" />
         </Grid>
     </Grid>

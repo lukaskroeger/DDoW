@@ -27,6 +27,12 @@ public class MainViewModel
             WikiCardViewModel viewModel = (WikiCardViewModel)item;
             Items.Remove(viewModel);
         });
+
+        UpCommand = new Command(async (item) =>
+        {
+            WikiCardViewModel viewModel = (WikiCardViewModel)item;
+            await Shell.Current.GoToAsync($"//WikiWebView?name={viewModel.ArticleId}");
+        });
         Init();
     }
     private async void Init()
