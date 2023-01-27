@@ -104,8 +104,11 @@ public partial class CardStackView : ContentView
 
     public async Task LikeTopCard()
     {
-        View card = (View)CardStack.Children.First();
-        await LikeCard(card);
+        if (CardStack.Children.Any())
+        {
+            View card = (View)CardStack.Children.First();
+            await LikeCard(card);
+        }
     }
     private async Task LikeCard(View card)
     {
@@ -116,8 +119,11 @@ public partial class CardStackView : ContentView
 
     public async Task DislikeTopCard()
     {
-        View card = (View)CardStack.Children.First();
-        await DislikeCard(card);
+        if (CardStack.Children.Any())
+        {
+            View card = (View)CardStack.Children.First();
+            await DislikeCard(card);
+        }
     }
     private async Task DislikeCard(View card)
     {
@@ -128,8 +134,11 @@ public partial class CardStackView : ContentView
 
     public async Task UpTopCard()
     {
-        View card = (View)CardStack.Children.First();
-        await UpCard(card);        
+        if (CardStack.Children.Any())
+        {
+            View card = (View)CardStack.Children.First();
+            await UpCard(card);
+        }
     }
     private async Task UpCard(View card)
     {
