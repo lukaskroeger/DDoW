@@ -16,7 +16,7 @@ public partial class WikipediaWebView : ContentPage
     {
         set
         {
-            webView.Source = $"https://de.m.wikipedia.org/wiki/{value}";
+            webView.Source = Uri.EscapeDataString($"https://en.m.wikipedia.org/wiki/{value}");
         }
     }
 

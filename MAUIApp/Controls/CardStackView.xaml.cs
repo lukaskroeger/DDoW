@@ -186,8 +186,8 @@ public partial class CardStackView : ContentView
         View cardView = ItemTemplate.CreateContent() as View;
         cardView.BindingContext = newCard;
         cardView.ZIndex = int.MaxValue - _cardCounter;
-        _cardCounter++;
-        CardStack.Add(cardView);
+        _cardCounter++;        
+        CardStack.Add(cardView);        
     }
 
     private async void PanGestureRecognizer_PanUpdated(object sender, PanUpdatedEventArgs e)
@@ -202,7 +202,7 @@ public partial class CardStackView : ContentView
             case GestureStatus.Canceled:
                 break;
             case GestureStatus.Completed:
-                if (Math.Abs(card.TranslationX) > 250 || Math.Abs(card.TranslationY) > 250)
+                if (Math.Abs(card.TranslationX) > 100 || Math.Abs(card.TranslationY) > 100)
                 {
                     if (Math.Abs(card.TranslationX) > Math.Abs(card.TranslationY))
                     {

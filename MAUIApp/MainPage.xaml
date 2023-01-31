@@ -15,8 +15,7 @@
             DislikeCommand="{Binding DislikeCommand}"
             HorizontalOptions="Center"
             ItemSource="{Binding Items}"
-            LikeCommand="{Binding LikeCommand}"
-            UpCommand="{Binding UpCommand}">
+            LikeCommand="{Binding LikeCommand}">
             <controls:CardStackView.ItemTemplate>
                 <DataTemplate>
                     <Border
@@ -35,9 +34,11 @@
                                 Text="{Binding ArticleId}"
                                 TextColor="Black" />
                             <Label
+                                x:Name="WikiTextLabel"
                                 Grid.Row="1"
                                 Text="{Binding Text}"
-                                TextColor="Black" />
+                                TextColor="Black"
+                                TextType="Html" />
                         </Grid>
                     </Border>
                 </DataTemplate>
@@ -53,7 +54,7 @@
                 Text="Dislike" />
             <Button
                 Grid.Column="1"
-                Clicked="UpButton_Clicked"
+                Command="{x:Binding ReadMoreCommand}"
                 Text="Read More" />
             <Button
                 Grid.Column="2"

@@ -31,7 +31,8 @@ public class DataService
     {
         List<WikiArticle> articles = new();
         QueryBuilder qb = new();
-        Uri uri = new($"https://localhost:7105/api/Links/seealso/{articleId}");
+        string baseAddress = DeviceInfo.Current.Platform == DevicePlatform.Android ? "http://10.0.2.2:5178" : "https://localhost:7105";
+        Uri uri = new($"{baseAddress}/api/Links/seealso/{articleId}");
         HttpResponseMessage response = await _httpClient.GetAsync(uri);
         if (response.IsSuccessStatusCode)
         {
@@ -51,7 +52,7 @@ public class DataService
         qb.Add("action", "query");
         qb.Add("format", "json");
         qb.Add("prop", "extracts");
-        qb.Add("exsentences", "10");
+        //qb.Add("explaintext", "true");
         qb.Add("exintro", "true");
         qb.Add("titles", id);
         qb.Add("formatversion", "2");

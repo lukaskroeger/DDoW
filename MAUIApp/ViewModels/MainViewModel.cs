@@ -1,4 +1,5 @@
 ﻿using MAUIApp.Services;
+using MAUIApp.Views;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
 
@@ -16,7 +17,7 @@ public class MainViewModel
             WikiCardViewModel viewModel = (WikiCardViewModel)item;
             Items.Remove(viewModel);
             List<Models.WikiArticle> articles = await _dataService.LikeArticle(viewModel.ArticleId);
-            IEnumerable<WikiCardViewModel> newArticles = articles.Select(a => new WikiCardViewModel(a));
+            IEnumerable<WikiCardViewModel> newArticles = await Task.Run(() => articles.Select(a => new WikiCardViewModel(a)));
             foreach (WikiCardViewModel newArticle in newArticles)
             {
                 Items.Add(newArticle);
@@ -28,10 +29,10 @@ public class MainViewModel
             Items.Remove(viewModel);
         });
 
-        UpCommand = new Command(async (item) =>
+        ReadMoreCommand = new Command(async () =>
         {
-            WikiCardViewModel viewModel = (WikiCardViewModel)item;
-            await Shell.Current.GoToAsync($"//WikiWebView?name={viewModel.ArticleId}");
+            WikiCardViewModel viewModel = Items.FirstOrDefault();
+            await Shell.Current.GoToAsync($"{nameof(WikipediaWebView)}?name={viewModel.ArticleId}");
         });
         Init();
     }
@@ -45,6 +46,6 @@ public class MainViewModel
     }
     public ICommand LikeCommand { get; set; }
     public ICommand DislikeCommand { get; set; }
-    public ICommand UpCommand { get; set; }
+    public ICommand ReadMoreCommand { get; set; }
 
 }

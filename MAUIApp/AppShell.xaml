@@ -7,13 +7,7 @@
     xmlns:views="clr-namespace:MAUIApp.Views"
     Shell.FlyoutBehavior="Disabled">
 
-    <ShellContent
-        Title="Daily Dose of Wikipedia"
-        ContentTemplate="{DataTemplate local:MainPage}"
-        Route="MainPage" />
-    <ShellContent
-        Title="Wikipedia"
-        ContentTemplate="{DataTemplate views:WikipediaWebView}"
-        Route="WikiWebView" />
+    <ShellContent Title="Daily Dose of Wikipedia" ContentTemplate="{DataTemplate local:MainPage}" />
+    <ShellContent Title="Wikipedia" ContentTemplate="{DataTemplate views:WikipediaWebView}" />
 
 </Shell>
