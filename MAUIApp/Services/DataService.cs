@@ -14,14 +14,22 @@ public class DataService
 
     internal async Task<IEnumerable<WikiArticle>> GetInitial()
     {
-        List<string> initial = new() { "API", "Wikipedia", "2022_Russian_invasion_of_Ukraine" };
+        //List<string> initial = new() { "API", "Wikipedia", "2022_Russian_invasion_of_Ukraine" };
         List<WikiArticle> articles = new();
-        foreach (string item in initial)
+        QueryBuilder qb = new();
+        string baseAddress = DeviceInfo.Current.Platform == DevicePlatform.Android ? "http://10.0.2.2:5178" : "https://localhost:7105";
+        Uri uri = new($"{baseAddress}/api/getRandom/3");
+        HttpResponseMessage response = await _httpClient.GetAsync(uri);
+        if (response.IsSuccessStatusCode)
         {
-            WikiArticle article = await GetArticleById(item);
-            if (article is not null)
+            var initial = await response.Content.ReadFromJsonAsync<IEnumerable<string>>();
+            foreach (string item in initial)
             {
-                articles.Add(article);
+                WikiArticle article = await GetArticleById(item);
+                if (article is not null)
+                {
+                    articles.Add(article);
+                }
             }
         }
         return articles;

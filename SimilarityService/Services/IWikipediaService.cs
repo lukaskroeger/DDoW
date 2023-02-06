@@ -3,4 +3,6 @@
 public interface IWikipediaService
 {
     public Task<IEnumerable<string>> GetSeeAlsoLinks(string pageTilte);
+
+    public IEnumerable<string> GetRandomWikipages(int number);
 }
