@@ -7,7 +7,10 @@
     xmlns:vm="clr-namespace:MAUIApp.ViewModels"
     x:DataType="vm:MainViewModel">
 
-    <Grid Padding="10" RowDefinitions="*,30,40">
+    <Grid
+        Padding="10"
+        BackgroundColor="#A9CAE3"
+        RowDefinitions="*,30,40">
 
         <controls:CardStackView
             x:Name="cardView"
@@ -19,11 +22,9 @@
             <controls:CardStackView.ItemTemplate>
                 <DataTemplate>
                     <Border
-                        BackgroundColor="White"
-                        Stroke="{AppThemeBinding Light=Blue,
-                                                 Dark=White}"
+                        BackgroundColor="WhiteSmoke"
                         StrokeShape="RoundRectangle 50"
-                        StrokeThickness="4">
+                        StrokeThickness="1">
                         <Grid
                             Padding="20"
                             x:DataType="vm:WikiCardViewModel"
@@ -50,14 +51,17 @@
             ColumnSpacing="10">
             <Button
                 Grid.Column="0"
+                BackgroundColor="#EB9691"
                 Clicked="DislikeButton_Clicked"
                 Text="Dislike" />
             <Button
                 Grid.Column="1"
+                BackgroundColor="#1C3144"
                 Command="{x:Binding ReadMoreCommand}"
                 Text="Read More" />
             <Button
                 Grid.Column="2"
+                BackgroundColor="#21BA94"
                 Clicked="LikeButton_Clicked"
                 Text="Like" />
         </Grid>
