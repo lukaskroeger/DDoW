@@ -1,5 +1,6 @@
 ﻿using MAUIApp.Services;
 using MAUIApp.Views;
+using System.Collections;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
 
@@ -8,15 +9,21 @@ public class MainViewModel
 {
     public ObservableCollection<WikiCardViewModel> Items { get; set; }
     private DataService _dataService;
+
     public MainViewModel(DataService dataService)
     {
         _dataService = dataService;
         Items = new ObservableCollection<WikiCardViewModel>();
+        Items.CollectionChanged += Items_CollectionChanged;
+
+        _currentRequests = 0;
+
         LikeCommand = new Command(async (item) =>
         {
             WikiCardViewModel viewModel = (WikiCardViewModel)item;
             Items.Remove(viewModel);
-            List<Models.WikiArticle> articles = await _dataService.LikeArticle(viewModel.ArticleId);
+            var currentRequest = dataService.LikeArticle(viewModel.ArticleId);
+            List<Models.WikiArticle> articles = await currentRequest;
             IEnumerable<WikiCardViewModel> newArticles = await Task.Run(() => articles.Select(a => new WikiCardViewModel(a)));
             foreach (WikiCardViewModel newArticle in newArticles)
             {
@@ -34,11 +41,22 @@ public class MainViewModel
             WikiCardViewModel viewModel = Items.FirstOrDefault();
             await Shell.Current.GoToAsync($"{nameof(WikipediaWebView)}?name={viewModel.ArticleId}");
         });
-        Init();
+        InitCards();
     }
-    private async void Init()
+
+    private async void Items_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
     {
-        IEnumerable<WikiCardViewModel> articles = (await _dataService.GetInitial()).Select(a => new WikiCardViewModel(a));
+        IList list = (IList)sender;
+        if (list.Count == 0) 
+        {   
+            //TODO Check if a request is still in process
+            await InitCards();
+        }
+    }
+
+    private async Task InitCards()
+    {
+        IEnumerable<WikiCardViewModel> articles = (await _dataService.GetRandom(5)).Select(a => new WikiCardViewModel(a));
         foreach (WikiCardViewModel initialArticle in articles)
         {
             Items.Add(initialArticle);

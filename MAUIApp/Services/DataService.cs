@@ -12,7 +12,7 @@ public class DataService
 
     }
 
-    internal async Task<IEnumerable<WikiArticle>> GetInitial()
+    internal async Task<IEnumerable<WikiArticle>> GetRandom(int amount)
     {
         //List<WikiArticle> initial = new() { "API", "Wikipedia", "2022_Russian_invasion_of_Ukraine" };
         RandomResponse? result = null;
@@ -21,7 +21,7 @@ public class DataService
         qb.Add("format", "json");
         qb.Add("list", "random");
         qb.Add("rnnamespace", "0");
-        qb.Add("rnlimit", "5");
+        qb.Add("rnlimit", $"{amount}");
         Uri baseUri = new("https://en.wikipedia.org/w/api.php");
         Uri uri = new(baseUri, qb.ToQueryString().ToUriComponent());
         HttpResponseMessage response = await _httpClient.GetAsync(uri);
