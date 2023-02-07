@@ -32,11 +32,7 @@ public class WikipediaService : IWikipediaService
         Parse? sectionParse = await GetSectionParse(pageTilte, seeAlsoSection.Index);
         return sectionParse?.Links?.Where(x => x.Namespace == 0).Select(x => x.PageTitle) ?? Enumerable.Empty<string>();
     }
-
-    public IEnumerable<string> GetRandomWikipages(int number)
-    {
-        return new List<string>() { "API", "Wikipedia", "Europe" };
-    }
+       
 
     private async Task<Parse?> GetPageParse(string pageTitle)
     {

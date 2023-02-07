@@ -14,25 +14,23 @@ public class DataService
 
     internal async Task<IEnumerable<WikiArticle>> GetInitial()
     {
-        //List<string> initial = new() { "API", "Wikipedia", "2022_Russian_invasion_of_Ukraine" };
-        List<WikiArticle> articles = new();
+        //List<WikiArticle> initial = new() { "API", "Wikipedia", "2022_Russian_invasion_of_Ukraine" };
+        RandomResponse? result = null;
         QueryBuilder qb = new();
-        string baseAddress = DeviceInfo.Current.Platform == DevicePlatform.Android ? "http://10.0.2.2:5178" : "https://localhost:7105";
-        Uri uri = new($"{baseAddress}/api/getRandom/3");
+        qb.Add("action", "query");
+        qb.Add("format", "json");
+        qb.Add("list", "random");
+        qb.Add("rnnamespace", "0");
+        qb.Add("rnlimit", "5");
+        Uri baseUri = new("https://en.wikipedia.org/w/api.php");
+        Uri uri = new(baseUri, qb.ToQueryString().ToUriComponent());
         HttpResponseMessage response = await _httpClient.GetAsync(uri);
         if (response.IsSuccessStatusCode)
         {
-            var initial = await response.Content.ReadFromJsonAsync<IEnumerable<string>>();
-            foreach (string item in initial)
-            {
-                WikiArticle article = await GetArticleById(item);
-                if (article is not null)
-                {
-                    articles.Add(article);
-                }
-            }
+            result = await response.Content.ReadFromJsonAsync<RandomResponse>();
         }
-        return articles;
+        var requests = result.Query.Random.Select(x => GetArticleById(x.Title)).ToList();
+        return await Task.WhenAll(requests);
     }
 
     internal async Task<List<WikiArticle>> LikeArticle(string articleId)
