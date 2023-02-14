@@ -6,6 +6,12 @@
     xmlns:controls="clr-namespace:MAUIApp.Controls"
     xmlns:vm="clr-namespace:MAUIApp.ViewModels"
     x:DataType="vm:MainViewModel">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem
+            Command="{Binding OpenSettingsCommand}"
+            IconImageSource="gear_w.png"
+            Text="Settings" />
+    </ContentPage.ToolbarItems>
 
     <Grid
         Padding="10"
@@ -51,19 +57,31 @@
             ColumnSpacing="10">
             <Button
                 Grid.Column="0"
-                BackgroundColor="#EB9691"
+                BackgroundColor="Transparent"
+                BorderColor="#EB9691"
+                BorderWidth="2"
                 Clicked="DislikeButton_Clicked"
-                Text="Dislike" />
+                FontSize="Micro"
+                Text="Dislike"
+                TextColor="#EB9691" />
             <Button
                 Grid.Column="1"
-                BackgroundColor="#1C3144"
+                BackgroundColor="Transparent"
+                BorderColor="#1C3144"
+                BorderWidth="2"
                 Command="{x:Binding ReadMoreCommand}"
-                Text="Read More" />
+                FontSize="Micro"
+                Text="Read More"
+                TextColor="#1C3144" />
             <Button
                 Grid.Column="2"
-                BackgroundColor="#21BA94"
+                BackgroundColor="Transparent"
+                BorderColor="#21BA94"
+                BorderWidth="2"
                 Clicked="LikeButton_Clicked"
-                Text="Like" />
+                FontSize="Micro"
+                Text="Like"
+                TextColor="#21BA94" />
         </Grid>
     </Grid>
 

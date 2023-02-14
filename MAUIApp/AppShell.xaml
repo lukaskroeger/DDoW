@@ -5,10 +5,11 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:local="clr-namespace:MAUIApp"
     xmlns:views="clr-namespace:MAUIApp.Views"
-    Shell.FlyoutBehavior="Disabled"
-    Shell.BackgroundColor="#1C3144">
+    Shell.BackgroundColor="#1C3144"
+    Shell.FlyoutBehavior="Disabled">
 
     <ShellContent Title="Daily Dose of Wikipedia" ContentTemplate="{DataTemplate local:MainPage}" />
     <ShellContent Title="Wikipedia" ContentTemplate="{DataTemplate views:WikipediaWebView}" />
+    <ShellContent Title="Settings" ContentTemplate="{DataTemplate views:SettingsPage}" />
 
 </Shell>

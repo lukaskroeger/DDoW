@@ -19,10 +19,5 @@ public partial class MainPage : ContentPage
     {
         await cardView.LikeTopCard();
     }
-
-    private async void UpButton_Clicked(object sender, EventArgs e)
-    {
-        await cardView.UpTopCard();
-    }
 }
 

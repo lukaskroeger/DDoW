@@ -1,5 +1,6 @@
 ﻿using MAUIApp.Services;
 using MAUIApp.Views;
+using Microsoft.Extensions.Configuration;
 using System.Collections;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
@@ -8,15 +9,16 @@ namespace MAUIApp.ViewModels;
 public class MainViewModel
 {
     public ObservableCollection<WikiCardViewModel> Items { get; set; }
+
+    private IConfiguration _config;
     private DataService _dataService;
 
-    public MainViewModel(DataService dataService)
+    public MainViewModel(DataService dataService, IConfiguration config)
     {
+        _config = config;
         _dataService = dataService;
         Items = new ObservableCollection<WikiCardViewModel>();
         Items.CollectionChanged += Items_CollectionChanged;
-
-        _currentRequests = 0;
 
         LikeCommand = new Command(async (item) =>
         {
@@ -39,8 +41,20 @@ public class MainViewModel
         ReadMoreCommand = new Command(async () =>
         {
             WikiCardViewModel viewModel = Items.FirstOrDefault();
-            await Shell.Current.GoToAsync($"{nameof(WikipediaWebView)}?name={viewModel.ArticleId}");
+            Uri baseAddress = new Uri(_config.GetSection("Wikipedia")["ContentUrl"]);
+            Uri uri = new Uri(baseAddress, Uri.EscapeDataString(viewModel.ArticleId));
+            var navigationParameter = new Dictionary<string, object>
+            {
+                {"address", uri }
+            };
+            await Shell.Current.GoToAsync($"{nameof(WikipediaWebView)}", navigationParameter);
         });
+
+        OpenSettingsCommand = new Command(async () =>
+        {
+            await Shell.Current.GoToAsync($"{nameof(SettingsPage)}");
+        });
+
         InitCards();
     }
 
@@ -65,5 +79,5 @@ public class MainViewModel
     public ICommand LikeCommand { get; set; }
     public ICommand DislikeCommand { get; set; }
     public ICommand ReadMoreCommand { get; set; }
-
+    public ICommand OpenSettingsCommand { get; private set; }
 }

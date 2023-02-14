@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="MAUIApp.Views.SettingsPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:viewModels="clr-namespace:MAUIApp.ViewModels"
+    Title="Settings"
+    x:DataType="viewModels:SettingsViewModel">
+    <VerticalStackLayout>
+        <Grid
+            Margin="0,40,0,0"
+            ColumnDefinitions="150,10,180"
+            HorizontalOptions="Center">
+            <Label
+                Grid.Column="0"
+                HorizontalOptions="End"
+                Text="Similarity Service Url"
+                VerticalOptions="Center" />
+            <Entry Grid.Column="2" Text="{Binding SimilarityServiceUri}" />
+        </Grid>
+        <Button
+            Margin="0,20,0,0"
+            Command="{Binding SaveSettingsCommand}"
+            HorizontalOptions="Center"
+            Text="Save" />
+    </VerticalStackLayout>
+</ContentPage>

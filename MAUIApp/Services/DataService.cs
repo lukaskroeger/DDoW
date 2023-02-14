@@ -1,20 +1,24 @@
 ﻿using MAUIApp.Models;
 using Microsoft.AspNetCore.Http.Extensions;
+using Microsoft.Extensions.Configuration;
 using System.Net.Http.Json;
 
 namespace MAUIApp.Services;
 public class DataService
 {
     private HttpClient _httpClient;
-    public DataService(HttpClient httpClient)
+    private IConfiguration _config;
+    private SettingsService _settings;
+
+    public DataService(HttpClient httpClient, IConfiguration config, SettingsService settings)
     {
         _httpClient = httpClient;
-
+        _config= config;
+        _settings= settings;
     }
 
     internal async Task<IEnumerable<WikiArticle>> GetRandom(int amount)
     {
-        //List<WikiArticle> initial = new() { "API", "Wikipedia", "2022_Russian_invasion_of_Ukraine" };
         RandomResponse? result = null;
         QueryBuilder qb = new();
         qb.Add("action", "query");
@@ -22,7 +26,7 @@ public class DataService
         qb.Add("list", "random");
         qb.Add("rnnamespace", "0");
         qb.Add("rnlimit", $"{amount}");
-        Uri baseUri = new("https://en.wikipedia.org/w/api.php");
+        Uri baseUri = new(_config.GetRequiredSection("Wikipedia")["ApiUrl"]);
         Uri uri = new(baseUri, qb.ToQueryString().ToUriComponent());
         HttpResponseMessage response = await _httpClient.GetAsync(uri);
         if (response.IsSuccessStatusCode)
@@ -37,7 +41,7 @@ public class DataService
     {
         List<WikiArticle> articles = new();
         QueryBuilder qb = new();
-        string baseAddress = DeviceInfo.Current.Platform == DevicePlatform.Android ? "http://10.0.2.2:5178" : "https://localhost:7105";
+        string baseAddress = _settings.SimilarityServiceUri;
         Uri uri = new($"{baseAddress}/api/Links/seealso/{articleId}");
         HttpResponseMessage response = await _httpClient.GetAsync(uri);
         if (response.IsSuccessStatusCode)
@@ -62,7 +66,7 @@ public class DataService
         qb.Add("exintro", "true");
         qb.Add("titles", id);
         qb.Add("formatversion", "2");
-        Uri baseUri = new("https://en.wikipedia.org/w/api.php");
+        Uri baseUri = new(_config.GetRequiredSection("Wikipedia")["ApiUrl"]);
         Uri uri = new(baseUri, qb.ToQueryString().ToUriComponent());
         HttpResponseMessage response = await _httpClient.GetAsync(uri);
         if (response.IsSuccessStatusCode)

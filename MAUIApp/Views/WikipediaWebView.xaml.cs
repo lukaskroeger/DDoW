@@ -1,22 +1,21 @@
+using Microsoft.Extensions.Configuration;
 using System.Xml.Linq;
 
 namespace MAUIApp.Views;
 
-[QueryProperty(nameof(Name), "name")]
+[QueryProperty(nameof(Address), "address")]
 public partial class WikipediaWebView : ContentPage
 {
-    
     public WikipediaWebView()
 	{
-        InitializeComponent();
-        
+        InitializeComponent();     
     }
 
-    public string Name
+    public Uri Address
     {
         set
-        {
-            webView.Source = Uri.EscapeDataString($"https://en.m.wikipedia.org/wiki/{value}");
+        {            
+            webView.Source = value;
         }
     }
 
