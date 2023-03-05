@@ -24,13 +24,26 @@ public class MainViewModel
         {
             WikiCardViewModel viewModel = (WikiCardViewModel)item;
             Items.Remove(viewModel);
-            var currentRequest = dataService.LikeArticle(viewModel.ArticleId);
-            List<Models.WikiArticle> articles = await currentRequest;
+            List<Models.WikiArticle>? articles = null;
+            try
+            {
+                articles = await dataService.LikeArticle(viewModel.ArticleId);
+            }
+            catch(Exception ex)
+            {
+                await Shell.Current.DisplayAlert("Error during request", ex.Message, "Ok");
+                return;
+            }
+            if (articles is null)
+            {
+                return;
+            }
             IEnumerable<WikiCardViewModel> newArticles = await Task.Run(() => articles.Select(a => new WikiCardViewModel(a)));
             foreach (WikiCardViewModel newArticle in newArticles)
             {
                 Items.Add(newArticle);
-            }
+            }           
+
         });
         DislikeCommand = new Command(async (item) =>
         {
@@ -40,7 +53,11 @@ public class MainViewModel
 
         ReadMoreCommand = new Command(async () =>
         {
-            WikiCardViewModel viewModel = Items.FirstOrDefault();
+            WikiCardViewModel? viewModel = Items.FirstOrDefault();
+            if(viewModel is null)
+            {
+                return;
+            }
             Uri baseAddress = new Uri(_config.GetSection("Wikipedia")["ContentUrl"]);
             Uri uri = new Uri(baseAddress, Uri.EscapeDataString(viewModel.ArticleId));
             var navigationParameter = new Dictionary<string, object>
