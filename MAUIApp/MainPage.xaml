@@ -1,41 +1,95 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="MAUIApp.MainPage">
+<ContentPage
+    x:Class="MAUIApp.MainPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:MAUIApp.Controls"
+    xmlns:vm="clr-namespace:MAUIApp.ViewModels"
+    x:DataType="vm:MainViewModel"
+    BackgroundColor="{AppThemeBinding Light={StaticResource Background},
+                                      Dark={StaticResource BackgroundDark}}">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem
+            Command="{Binding OpenSettingsCommand}"
+            IconImageSource="gear_w.png"
+            Text="Settings" />
+    </ContentPage.ToolbarItems>
 
-    <ScrollView>
-        <VerticalStackLayout
-            Spacing="25"
-            Padding="30,0"
-            VerticalOptions="Center">
+    <Grid Padding="10" RowDefinitions="*,30,50">
 
-            <Image
-                Source="dotnet_bot.png"
-                SemanticProperties.Description="Cute dot net bot waving hi to you!"
-                HeightRequest="200"
-                HorizontalOptions="Center" />
-
-            <Label
-                Text="Hello, World!"
-                SemanticProperties.HeadingLevel="Level1"
-                FontSize="32"
-                HorizontalOptions="Center" />
-
-            <Label
-                Text="Welcome to .NET Multi-platform App UI"
-                SemanticProperties.HeadingLevel="Level2"
-                SemanticProperties.Description="Welcome to dot net Multi platform App U I"
-                FontSize="18"
-                HorizontalOptions="Center" />
-
+        <controls:CardStackView
+            x:Name="cardView"
+            Grid.Row="0"
+            DislikeCommand="{Binding DislikeCommand}"
+            HorizontalOptions="Center"
+            ItemSource="{Binding Items}"
+            LikeCommand="{Binding LikeCommand}">
+            <controls:CardStackView.ItemTemplate>
+                <DataTemplate>
+                    <Border
+                        BackgroundColor="{AppThemeBinding Light={StaticResource Tertiary},
+                                                          Dark={StaticResource TertiaryDark}}"
+                        StrokeShape="RoundRectangle 50"
+                        StrokeThickness="1">
+                        <Grid
+                            Padding="20"
+                            x:DataType="vm:WikiCardViewModel"
+                            RowDefinitions="Auto,*">
+                            <Label
+                                Grid.Row="0"
+                                FontSize="Large"
+                                Text="{Binding ArticleId}" />
+                            <Label
+                                x:Name="WikiTextLabel"
+                                Grid.Row="1"
+                                Text="{Binding Text}"
+                                TextType="Html" />
+                        </Grid>
+                    </Border>
+                </DataTemplate>
+            </controls:CardStackView.ItemTemplate>
+        </controls:CardStackView>
+        <Grid
+            Grid.Row="2"
+            ColumnDefinitions="*,*,*"
+            ColumnSpacing="10">
             <Button
-                x:Name="CounterBtn"
-                Text="Click me"
-                SemanticProperties.Hint="Counts the number of times you click"
-                Clicked="OnCounterClicked"
-                HorizontalOptions="Center" />
-
-        </VerticalStackLayout>
-    </ScrollView>
+                Grid.Column="0"
+                BackgroundColor="Transparent"
+                BorderColor="{AppThemeBinding Light={StaticResource RedAccent},
+                                              Dark={StaticResource RedAccentDark}}"
+                BorderWidth="2"
+                Clicked="DislikeButton_Clicked"
+                FontAttributes="Bold"
+                FontSize="Medium"
+                Text="Dislike"
+                TextColor="{AppThemeBinding Light={StaticResource RedAccent},
+                                            Dark={StaticResource RedAccentDark}}" />
+            <Button
+                Grid.Column="1"
+                BackgroundColor="Transparent"
+                BorderColor="{AppThemeBinding Light={StaticResource YellowAccent},
+                                              Dark={StaticResource YellowAccentDark}}"
+                BorderWidth="2"
+                Command="{x:Binding ReadMoreCommand}"
+                FontAttributes="Bold"
+                FontSize="Medium"
+                Text="Read"
+                TextColor="{AppThemeBinding Light={StaticResource YellowAccent},
+                                            Dark={StaticResource YellowAccentDark}}" />
+            <Button
+                Grid.Column="2"
+                BackgroundColor="Transparent"
+                BorderColor="{AppThemeBinding Light={StaticResource GreenAccent},
+                                              Dark={StaticResource GreenAccentDark}}"
+                BorderWidth="2"
+                Clicked="LikeButton_Clicked"
+                FontAttributes="Bold"
+                FontSize="Medium"
+                Text="Like"
+                TextColor="{AppThemeBinding Light={StaticResource GreenAccent},
+                                            Dark={StaticResource GreenAccentDark}}" />
+        </Grid>
+    </Grid>
 
 </ContentPage>
