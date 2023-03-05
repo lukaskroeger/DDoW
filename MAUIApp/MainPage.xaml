@@ -5,7 +5,9 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:controls="clr-namespace:MAUIApp.Controls"
     xmlns:vm="clr-namespace:MAUIApp.ViewModels"
-    x:DataType="vm:MainViewModel">
+    x:DataType="vm:MainViewModel"
+    BackgroundColor="{AppThemeBinding Light={StaticResource Background},
+                                      Dark={StaticResource BackgroundDark}}">
     <ContentPage.ToolbarItems>
         <ToolbarItem
             Command="{Binding OpenSettingsCommand}"
@@ -13,10 +15,7 @@
             Text="Settings" />
     </ContentPage.ToolbarItems>
 
-    <Grid
-        Padding="10"
-        BackgroundColor="#A9CAE3"
-        RowDefinitions="*,30,40">
+    <Grid Padding="10" RowDefinitions="*,30,50">
 
         <controls:CardStackView
             x:Name="cardView"
@@ -28,7 +27,8 @@
             <controls:CardStackView.ItemTemplate>
                 <DataTemplate>
                     <Border
-                        BackgroundColor="WhiteSmoke"
+                        BackgroundColor="{AppThemeBinding Light={StaticResource Tertiary},
+                                                          Dark={StaticResource TertiaryDark}}"
                         StrokeShape="RoundRectangle 50"
                         StrokeThickness="1">
                         <Grid
@@ -38,13 +38,11 @@
                             <Label
                                 Grid.Row="0"
                                 FontSize="Large"
-                                Text="{Binding ArticleId}"
-                                TextColor="Black" />
+                                Text="{Binding ArticleId}" />
                             <Label
                                 x:Name="WikiTextLabel"
                                 Grid.Row="1"
                                 Text="{Binding Text}"
-                                TextColor="Black"
                                 TextType="Html" />
                         </Grid>
                     </Border>
@@ -58,30 +56,39 @@
             <Button
                 Grid.Column="0"
                 BackgroundColor="Transparent"
-                BorderColor="#EB9691"
+                BorderColor="{AppThemeBinding Light={StaticResource RedAccent},
+                                              Dark={StaticResource RedAccentDark}}"
                 BorderWidth="2"
                 Clicked="DislikeButton_Clicked"
-                FontSize="Micro"
+                FontAttributes="Bold"
+                FontSize="Medium"
                 Text="Dislike"
-                TextColor="#EB9691" />
+                TextColor="{AppThemeBinding Light={StaticResource RedAccent},
+                                            Dark={StaticResource RedAccentDark}}" />
             <Button
                 Grid.Column="1"
                 BackgroundColor="Transparent"
-                BorderColor="#1C3144"
+                BorderColor="{AppThemeBinding Light={StaticResource YellowAccent},
+                                              Dark={StaticResource YellowAccentDark}}"
                 BorderWidth="2"
                 Command="{x:Binding ReadMoreCommand}"
-                FontSize="Micro"
-                Text="Read More"
-                TextColor="#1C3144" />
+                FontAttributes="Bold"
+                FontSize="Medium"
+                Text="Read"
+                TextColor="{AppThemeBinding Light={StaticResource YellowAccent},
+                                            Dark={StaticResource YellowAccentDark}}" />
             <Button
                 Grid.Column="2"
                 BackgroundColor="Transparent"
-                BorderColor="#21BA94"
+                BorderColor="{AppThemeBinding Light={StaticResource GreenAccent},
+                                              Dark={StaticResource GreenAccentDark}}"
                 BorderWidth="2"
                 Clicked="LikeButton_Clicked"
-                FontSize="Micro"
+                FontAttributes="Bold"
+                FontSize="Medium"
                 Text="Like"
-                TextColor="#21BA94" />
+                TextColor="{AppThemeBinding Light={StaticResource GreenAccent},
+                                            Dark={StaticResource GreenAccentDark}}" />
         </Grid>
     </Grid>
 

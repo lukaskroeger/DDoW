@@ -82,12 +82,12 @@
 
 	<ItemGroup>
 		<!-- App Icon -->
-		<MauiIcon Include="Resources\AppIcon\appicon.svg" ForegroundFile="Resources\AppIcon\ddow_logo.svg" Color="#1C3144" BaseSize="32,32" />
+		<MauiIcon Include="Resources\AppIcon\ddowlogo.svg" Color="#ffffff" BaseSize="32,32" />
 		<MauiImage Include="Resources\Icons\gear_w.svg" />
 		<MauiImage Include="Resources\Icons\gear_b.svg" />
 
 		<!-- Splash Screen -->
-		<MauiSplashScreen Include="Resources\Splash\ddow_logo.svg" Color="#1C3144" BaseSize="128,128" />
+		<MauiSplashScreen Include="Resources\Splash\ddowlogo.svg" Color="#ffffff" BaseSize="128,128" />
 
 		<!-- Images -->
 		<MauiImage Include="Resources\Images\*" />
