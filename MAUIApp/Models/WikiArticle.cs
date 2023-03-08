@@ -1,7 +1,15 @@
-﻿namespace MAUIApp.Models;
+﻿using SQLite;
+
+namespace MAUIApp.Models;
+
+[Table("CardStack")]
 public class WikiArticle
 {
-    public string Id { get; set; }
-    public string Text { get; set; }
-    public string Title { get; set; }
+    
+    [PrimaryKey]
+    [NotNull]
+    [System.Diagnostics.CodeAnalysis.NotNull]
+    public string? Id { get; set; }
+    public string? Text { get; set; }
+    public string? Title { get; set; }
 }

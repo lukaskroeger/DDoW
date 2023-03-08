@@ -1,4 +1,5 @@
-﻿using MAUIApp.Services;
+﻿using MAUIApp.Models;
+using MAUIApp.Services;
 using MAUIApp.Views;
 using Microsoft.Extensions.Configuration;
 using System.Collections;
@@ -12,11 +13,13 @@ public class MainViewModel
 
     private IConfiguration _config;
     private DataService _dataService;
+    private DatabaseService _database;
 
-    public MainViewModel(DataService dataService, IConfiguration config)
+    public MainViewModel(DataService dataService, IConfiguration config, DatabaseService database)
     {
         _config = config;
         _dataService = dataService;
+        _database = database;
         Items = new ObservableCollection<WikiCardViewModel>();
         Items.CollectionChanged += Items_CollectionChanged;
 
@@ -24,6 +27,7 @@ public class MainViewModel
         {
             WikiCardViewModel viewModel = (WikiCardViewModel)item;
             Items.Remove(viewModel);
+            await _database.InsertInteraction(Interaction.FromWikiArticleNow(viewModel.Article, InteractionType.Like));
             List<Models.WikiArticle>? articles = null;
             try
             {
@@ -43,6 +47,7 @@ public class MainViewModel
             {
                 Items.Add(newArticle);
             }           
+
 
         });
         DislikeCommand = new Command(async (item) =>
@@ -75,24 +80,56 @@ public class MainViewModel
         InitCards();
     }
 
-    private async void Items_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+    private async void Items_CollectionChanged(object? sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
     {
-        IList list = (IList)sender;
-        if (list.Count == 0) 
-        {   
+        IList? list = sender as IList;
+        if (list is not null && list.Count == 0) 
+        {
             //TODO Check if a request is still in process
-            await InitCards();
+            IEnumerable<WikiArticle> articles = await _dataService.GetRandom(5);
+            AddArticlesToItems(articles);
+        }
+
+        switch (e.Action)
+        {
+            case System.Collections.Specialized.NotifyCollectionChangedAction.Add:
+                if (e.NewItems?.Cast<WikiCardViewModel>() is IEnumerable<WikiCardViewModel> newItems)
+                {
+                    await _database.InsertCardStackArticles(newItems.Select(x => x.Article));
+                }
+                break;
+            case System.Collections.Specialized.NotifyCollectionChangedAction.Remove:
+                if (e.OldItems?.Cast<WikiCardViewModel>() is IEnumerable<WikiCardViewModel> oldItems)
+                {
+                    await _database.DeleteCardStackArticles(oldItems.Select(x => x.ArticleId));
+                }
+                break;
         }
     }
 
     private async Task InitCards()
     {
-        IEnumerable<WikiCardViewModel> articles = (await _dataService.GetRandom(5)).Select(a => new WikiCardViewModel(a));
-        foreach (WikiCardViewModel initialArticle in articles)
+        IEnumerable<WikiArticle> articles = await _database.GetCardStackAsync();
+        if(articles.Count()  == 0)
         {
-            Items.Add(initialArticle);
+            articles = await _dataService.GetRandom(5);
+        }
+        AddArticlesToItems(articles);
+    }
+
+    private async Task<IEnumerable<WikiArticle>> GetRandomArticles(int amount)
+    {
+        IEnumerable<WikiArticle> randomArticles = await _dataService.GetRandom(amount);
+        return randomArticles; 
+    }
+    private void AddArticlesToItems(IEnumerable<WikiArticle> articles)
+    {
+        foreach(WikiCardViewModel article in articles.Select(x => new WikiCardViewModel(x)))
+        {
+            Items.Add(article);
         }
     }
+
     public ICommand LikeCommand { get; set; }
     public ICommand DislikeCommand { get; set; }
     public ICommand ReadMoreCommand { get; set; }

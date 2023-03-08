@@ -25,7 +25,8 @@ public static class MauiProgram
             .AddTransient<SettingsViewModel>()
             .AddTransient<DataService>()
             .AddSingleton<HttpClient>()
-            .AddSingleton<SettingsService>();
+            .AddSingleton<SettingsService>()
+            .AddSingleton<DatabaseService>();
 
         var a = Assembly.GetExecutingAssembly();
         using var stream = a.GetManifestResourceStream("MAUIApp.appsettings.json");
