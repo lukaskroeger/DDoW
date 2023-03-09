@@ -23,6 +23,8 @@ public static class MauiProgram
             .AddTransient<MainViewModel>()
             .AddTransient<SettingsPage>()
             .AddTransient<SettingsViewModel>()
+            .AddTransient<InteractionsPage>()
+            .AddTransient<InteractionsOverviewViewModel>()
             .AddTransient<DataService>()
             .AddSingleton<HttpClient>()
             .AddSingleton<SettingsService>()

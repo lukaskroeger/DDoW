@@ -13,6 +13,10 @@
             Command="{Binding OpenSettingsCommand}"
             IconImageSource="gear_w.png"
             Text="Settings" />
+        <ToolbarItem
+            Command="{Binding OpenInteractionsCommand}"
+            Order="Secondary"
+            Text="Interactions" />
     </ContentPage.ToolbarItems>
 
     <Grid Padding="10" RowDefinitions="*,30,50">

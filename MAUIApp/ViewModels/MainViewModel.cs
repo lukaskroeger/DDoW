@@ -77,6 +77,11 @@ public class MainViewModel
             await Shell.Current.GoToAsync($"{nameof(SettingsPage)}");
         });
 
+        OpenInteractionsCommand = new Command(async () =>
+        {
+            await Shell.Current.GoToAsync($"{nameof(InteractionsPage)}");
+        });
+
         InitCards();
     }
 
@@ -134,4 +139,5 @@ public class MainViewModel
     public ICommand DislikeCommand { get; set; }
     public ICommand ReadMoreCommand { get; set; }
     public ICommand OpenSettingsCommand { get; private set; }
+    public ICommand OpenInteractionsCommand { get; private set; }
 }
