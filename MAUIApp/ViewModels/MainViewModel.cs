@@ -53,6 +53,7 @@ public class MainViewModel
         DislikeCommand = new Command(async (item) =>
         {
             WikiCardViewModel viewModel = (WikiCardViewModel)item;
+            await _database.InsertInteraction(Interaction.FromWikiArticleNow(viewModel.Article, InteractionType.Dislike));
             Items.Remove(viewModel);
         });
 

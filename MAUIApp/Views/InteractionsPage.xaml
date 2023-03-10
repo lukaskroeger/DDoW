@@ -16,7 +16,7 @@
                 HorizontalOptions="End"
                 Text="Dislikes"
                 VerticalOptions="Center" />
-            <Switch Grid.Column="1" />
+            <Switch Grid.Column="1" IsToggled="{Binding ShowLikes}" />
             <Label
                 Grid.Column="2"
                 HorizontalOptions="Start"
