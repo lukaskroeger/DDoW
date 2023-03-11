@@ -86,4 +86,10 @@ public class DatabaseService
         await Init();
         await Database.DeleteAllAsync<Interaction>();
     }
+
+    public async Task ClearCardStack()
+    {
+        await Init();
+        await Database.DeleteAllAsync<WikiArticle>();
+    }
 }

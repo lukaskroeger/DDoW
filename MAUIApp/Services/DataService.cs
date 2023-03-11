@@ -26,14 +26,14 @@ public class DataService
         qb.Add("list", "random");
         qb.Add("rnnamespace", "0");
         qb.Add("rnlimit", $"{amount}");
-        Uri baseUri = new(_config.GetRequiredSection("Wikipedia")["ApiUrl"]);
+        Uri baseUri = new($"https://{_settings.LanguageKey}.{_config.GetRequiredSection("Wikipedia")["ApiUrl"]}");
         Uri uri = new(baseUri, qb.ToQueryString().ToUriComponent());
         HttpResponseMessage response = await _httpClient.GetAsync(uri);
         if (response.IsSuccessStatusCode)
         {
             result = await response.Content.ReadFromJsonAsync<RandomResponse>();
         }
-        var requests = result.Query.Random.Select(x => GetArticleById(x.Title)).ToList();
+        var requests = result?.Query.Random.Select(x => GetArticleById(x.Title)).ToList();
         return await Task.WhenAll(requests);
     }
 
@@ -66,7 +66,7 @@ public class DataService
         qb.Add("exintro", "true");
         qb.Add("titles", id);
         qb.Add("formatversion", "2");
-        Uri baseUri = new(_config.GetRequiredSection("Wikipedia")["ApiUrl"]);
+        Uri baseUri = new($"https://{_settings.LanguageKey}.{_config.GetRequiredSection("Wikipedia")["ApiUrl"]}");
         Uri uri = new(baseUri, qb.ToQueryString().ToUriComponent());
         HttpResponseMessage response = await _httpClient.GetAsync(uri);
         if (response.IsSuccessStatusCode)

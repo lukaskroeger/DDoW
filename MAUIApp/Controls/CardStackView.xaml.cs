@@ -150,7 +150,6 @@ public partial class CardStackView : ContentView
     private void HideCard(View card)
     {
         card.IsVisible = false;
-        CardStack.Children.Remove(card);
     }
 
     private PanGestureRecognizer GetGestureRecognizer()
@@ -172,12 +171,23 @@ public partial class CardStackView : ContentView
 
     private void ItemsSourceCollectionChanged(object s, NotifyCollectionChangedEventArgs e)
     {
-        if (e.NewItems is not null)
+        switch (e.Action)
         {
-            foreach (object newItem in e.NewItems)
-            {
-                AddCard(newItem);
-            }
+            case NotifyCollectionChangedAction.Add:
+                if(e.NewItems is not null)
+                {
+                    foreach(object newItem in e.NewItems)
+                    {
+                        AddCard(newItem);
+                    }
+                }
+                break;
+             case NotifyCollectionChangedAction.Remove:
+                CardStack.RemoveAt(e.OldStartingIndex);
+                break;
+             case NotifyCollectionChangedAction.Reset:
+                CardStack.Clear();
+                break;
         }
     }
 
