@@ -1,4 +1,3 @@
-using Java.Lang;
 using MAUIApp.ViewModels;
 
 namespace MAUIApp.Views;

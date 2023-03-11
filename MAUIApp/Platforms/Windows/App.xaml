@@ -2,7 +2,15 @@
     x:Class="MAUIApp.WinUI.App"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:maui="using:Microsoft.Maui"
-    xmlns:local="using:MAUIApp.WinUI">
-
+    xmlns:local="using:MAUIApp.WinUI"
+    xmlns:maui="using:Microsoft.Maui">
+    <maui:MauiWinUIApplication.Resources>
+        <ResourceDictionary>
+            <Style TargetType="ToggleSwitch">
+                <Setter Property="OnContent" Value="" />
+                <Setter Property="OffContent" Value="" />
+                <Setter Property="Margin" Value="0,0,-110,0" />
+            </Style>
+        </ResourceDictionary>
+    </maui:MauiWinUIApplication.Resources>
 </maui:MauiWinUIApplication>

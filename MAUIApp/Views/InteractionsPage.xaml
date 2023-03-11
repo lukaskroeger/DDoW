@@ -16,7 +16,8 @@
                 HorizontalOptions="End"
                 Text="Dislikes"
                 VerticalOptions="Center" />
-            <Switch Grid.Column="1" IsToggled="{Binding ShowLikes}" />
+            <Switch Grid.Column="1" IsToggled="{Binding ShowLikes}" /> 
+            <!--  To hide the on/off text on uwp, there is a specific style in the App.xaml file of the Uwp project  -->
             <Label
                 Grid.Column="2"
                 HorizontalOptions="Start"
