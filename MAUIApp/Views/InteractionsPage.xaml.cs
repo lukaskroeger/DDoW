@@ -11,4 +11,11 @@ public partial class InteractionsPage : ContentPage
         _viewModel= viewModel;
         BindingContext = _viewModel;
 	}
+
+    protected override void OnAppearing()
+    {
+        base.OnAppearing();
+        test.IconImageSource = "";
+
+    }
 }

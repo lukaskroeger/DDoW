@@ -9,9 +9,12 @@
     BackgroundColor="{AppThemeBinding Light={StaticResource Background},
                                       Dark={StaticResource BackgroundDark}}">
     <ContentPage.ToolbarItems>
+        <!--  Due to a bug in MAUI (#10452) we need to display the toolbar item as secondary  -->
         <ToolbarItem
             Command="{Binding OpenSettingsCommand}"
             IconImageSource="gear_w.png"
+            Order="{OnPlatform Primary,
+                               Android=Secondary}"
             Text="Settings" />
         <ToolbarItem
             Command="{Binding OpenInteractionsCommand}"

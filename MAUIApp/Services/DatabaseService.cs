@@ -80,4 +80,10 @@ public class DatabaseService
             await Database.DeleteAsync<WikiArticle>(articleId);
         }
     }
+
+    public async Task ClearInteractions()
+    {
+        await Init();
+        await Database.DeleteAllAsync<Interaction>();
+    }
 }

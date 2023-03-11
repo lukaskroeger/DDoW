@@ -7,7 +7,11 @@
     Title="Interactions"
     x:DataType="viewModels:InteractionsOverviewViewModel">
     <ContentPage.ToolbarItems>
-        <ToolbarItem Text="Export" />
+        <ToolbarItem
+            x:Name="test"
+            Command="{Binding ClearInteractions}"
+            Order="Secondary"
+            Text="Clear" />
     </ContentPage.ToolbarItems>
     <Grid RowDefinitions="40,*">
         <Grid ColumnDefinitions="*,Auto,*" VerticalOptions="End">
@@ -16,7 +20,7 @@
                 HorizontalOptions="End"
                 Text="Dislikes"
                 VerticalOptions="Center" />
-            <Switch Grid.Column="1" IsToggled="{Binding ShowLikes}" /> 
+            <Switch Grid.Column="1" IsToggled="{Binding ShowLikes}" />
             <!--  To hide the on/off text on uwp, there is a specific style in the App.xaml file of the Uwp project  -->
             <Label
                 Grid.Column="2"
@@ -30,11 +34,17 @@
             VerticalScrollBarVisibility="Always">
             <CollectionView.ItemTemplate>
                 <DataTemplate x:DataType="viewModels:InteractionViewModel">
-                    <Border Margin="10,2,10,2" Padding="10">
+                    <Border Margin="10,2,10,2">
                         <Border.StrokeShape>
                             <RoundRectangle CornerRadius="20" />
                         </Border.StrokeShape>
-                        <Grid ColumnDefinitions="*,80" RowDefinitions="Auto, 25">
+                        <Border.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding OpenArticle}" NumberOfTapsRequired="1" />
+                        </Border.GestureRecognizers>
+                        <Grid
+                            Padding="10"
+                            ColumnDefinitions="*,80"
+                            RowDefinitions="Auto, 25">
                             <Label
                                 Grid.Row="0"
                                 Grid.Column="0"
