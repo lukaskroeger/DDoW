@@ -144,7 +144,7 @@ public class MainViewModel
     }
     private void AddArticlesToItems(IEnumerable<WikiArticle> articles)
     {
-        foreach (WikiCardViewModel article in articles.Select(x => new WikiCardViewModel(x)))
+        foreach (WikiCardViewModel article in articles.Select(x => new WikiCardViewModel(x)).Where(x => !string.IsNullOrWhiteSpace(x.Text)))
         {
             Items.Add(article);
         }
