@@ -1,4 +1,5 @@
 ﻿using MAUIApp.Models;
+using MAUIApp.Services;
 using MAUIApp.Views;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Maui.Controls;
@@ -14,13 +15,16 @@ public class InteractionViewModel
 {
     private readonly Interaction _interaction;
     private readonly IConfiguration _config;
-    public InteractionViewModel(IConfiguration config, Interaction interaction)
+    private readonly SettingsService _settings;
+
+    public InteractionViewModel(IConfiguration config, Interaction interaction, SettingsService settings)
     {
         _interaction = interaction;
         _config = config;
+        _settings = settings; 
         OpenArticle = new Command(async () =>
         {
-            Uri baseAddress = new Uri(_config.GetSection("Wikipedia")["ContentUrl"]);
+            Uri baseAddress = new Uri($"https://{_settings.LanguageKey}.{_config.GetSection("Wikipedia")["ContentUrl"]}");
             Uri uri = new Uri(baseAddress, Uri.EscapeDataString(interaction.ArticleId));
             var navigationParameter = new Dictionary<string, object>
             {

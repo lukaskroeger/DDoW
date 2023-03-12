@@ -9,10 +9,12 @@ public class InteractionsOverviewViewModel
 {
     private readonly DatabaseService _database;
     private readonly IConfiguration _config;
-    public InteractionsOverviewViewModel(IConfiguration config, DatabaseService database)
+    private readonly SettingsService _settings;
+    public InteractionsOverviewViewModel(IConfiguration config, DatabaseService database, SettingsService settings)
     {
         _database = database;
         _config = config;
+        _settings = settings;
         Interactions = new ObservableCollection<InteractionViewModel>();
         ShowLikes = true;
         ClearInteractions = new Command(async () =>
@@ -30,7 +32,7 @@ public class InteractionsOverviewViewModel
     }
     private void AddAllToInteractionsList(IEnumerable<Interaction> all)
     {
-        foreach (InteractionViewModel interaction in all.Select(x => new InteractionViewModel(_config, x)))
+        foreach (InteractionViewModel interaction in all.Select(x => new InteractionViewModel(_config, x, _settings)))
         {
             Interactions.Add(interaction);
         }
