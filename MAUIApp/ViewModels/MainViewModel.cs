@@ -44,12 +44,8 @@ public class MainViewModel
             {
                 return;
             }
-            IEnumerable<WikiCardViewModel> newArticles = await Task.Run(() => articles.Select(a => new WikiCardViewModel(a)));
-            foreach (WikiCardViewModel newArticle in newArticles)
-            {
-                Items.Add(newArticle);
-            }
-
+            articles.ForEach((article) => article.PredecessorArticleId = viewModel.Article.Id);
+            AddArticlesToItems(articles);
 
         });
         DislikeCommand = new Command(async (item) =>

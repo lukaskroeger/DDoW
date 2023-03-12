@@ -29,7 +29,8 @@ public class Interaction
         {
             ArticleId = wikiArticle.Id,
             DateTime = DateTime.Now,
-            Type = type
+            Type = type,
+            PredecessorArticleId = wikiArticle.PredecessorArticleId
         };
     }
 }
