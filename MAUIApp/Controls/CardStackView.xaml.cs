@@ -202,6 +202,10 @@ public partial class CardStackView : ContentView
 
     private async void PanGestureRecognizer_PanUpdated(object sender, PanUpdatedEventArgs e)
     {
+        if(CardStack.Children.Count == 0)
+        {
+            return;
+        }
         View card = (View)CardStack.Children.First();
         switch (e.StatusType)
         {
