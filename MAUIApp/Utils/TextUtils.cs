@@ -24,7 +24,12 @@ internal static class TextUtils
         sanitizer.KeepChildNodes = true;
         htmlText = sanitizer.Sanitize(htmlText);
         //Windows label cannot handle HTML Entities
-        htmlText = HttpUtility.HtmlDecode(htmlText);
+        StringBuilder sb = new StringBuilder(htmlText);
+        for(int i = 0; i < HTMLEntities.decodingList.GetLength(0); i++)
+        {
+            sb.Replace(HTMLEntities.decodingList[i,0], $"<![CDATA[{HTMLEntities.decodingList[i,1]}]]>");
+        }
+        htmlText = sb.ToString();
         //Windows label cannot handle empty tags
         htmlText = Regex.Replace(htmlText, @"<(\w+)\b(?:\s+[\w\-.:]+(?:\s*=\s*(?:""[^""]*""|'[^']*'|[\w\-.:]+))?)*\s*/?>\s*</\1\s*>", string.Empty, RegexOptions.Multiline);
         return htmlText;

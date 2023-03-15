@@ -13,8 +13,8 @@ public class DataService
     public DataService(HttpClient httpClient, IConfiguration config, SettingsService settings)
     {
         _httpClient = httpClient;
-        _config= config;
-        _settings= settings;
+        _config = config;
+        _settings = settings;
     }
 
     internal async Task<IEnumerable<WikiArticle>> GetRandom(int amount)
@@ -26,14 +26,14 @@ public class DataService
         qb.Add("list", "random");
         qb.Add("rnnamespace", "0");
         qb.Add("rnlimit", $"{amount}");
-        Uri baseUri = new(_config.GetRequiredSection("Wikipedia")["ApiUrl"]);
+        Uri baseUri = new($"https://{_settings.LanguageKey}.{_config.GetRequiredSection("Wikipedia")["ApiUrl"]}");
         Uri uri = new(baseUri, qb.ToQueryString().ToUriComponent());
         HttpResponseMessage response = await _httpClient.GetAsync(uri);
         if (response.IsSuccessStatusCode)
         {
             result = await response.Content.ReadFromJsonAsync<RandomResponse>();
         }
-        var requests = result.Query.Random.Select(x => GetArticleById(x.Title)).ToList();
+        List<Task<WikiArticle?>>? requests = result?.Query.Random.Select(x => GetArticleById(x.Title)).ToList();
         return await Task.WhenAll(requests);
     }
 
@@ -41,8 +41,10 @@ public class DataService
     {
         List<WikiArticle> articles = new();
         QueryBuilder qb = new();
+        qb.Add("language", _settings.LanguageKey);
         string baseAddress = _settings.SimilarityServiceUri;
-        Uri uri = new($"{baseAddress}/api/Links/seealso/{articleId}");
+        Uri baseUri = new($"{baseAddress}/api/Links/seealso/{articleId}");
+        Uri uri = new(baseUri, qb.ToQueryString().ToUriComponent());
         HttpResponseMessage response = await _httpClient.GetAsync(uri);
         if (response.IsSuccessStatusCode)
         {
@@ -66,7 +68,7 @@ public class DataService
         qb.Add("exintro", "true");
         qb.Add("titles", id);
         qb.Add("formatversion", "2");
-        Uri baseUri = new(_config.GetRequiredSection("Wikipedia")["ApiUrl"]);
+        Uri baseUri = new($"https://{_settings.LanguageKey}.{_config.GetRequiredSection("Wikipedia")["ApiUrl"]}");
         Uri uri = new(baseUri, qb.ToQueryString().ToUriComponent());
         HttpResponseMessage response = await _httpClient.GetAsync(uri);
         if (response.IsSuccessStatusCode)

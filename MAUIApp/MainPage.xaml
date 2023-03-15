@@ -9,10 +9,17 @@
     BackgroundColor="{AppThemeBinding Light={StaticResource Background},
                                       Dark={StaticResource BackgroundDark}}">
     <ContentPage.ToolbarItems>
+        <!--  Due to a bug in MAUI (#10452) we need to display the toolbar item as secondary  -->
         <ToolbarItem
             Command="{Binding OpenSettingsCommand}"
             IconImageSource="gear_w.png"
+            Order="{OnPlatform Primary,
+                               Android=Secondary}"
             Text="Settings" />
+        <ToolbarItem
+            Command="{Binding OpenInteractionsCommand}"
+            Order="Secondary"
+            Text="Interactions" />
     </ContentPage.ToolbarItems>
 
     <Grid Padding="10" RowDefinitions="*,30,50">
@@ -34,14 +41,18 @@
                         <Grid
                             Padding="20"
                             x:DataType="vm:WikiCardViewModel"
-                            RowDefinitions="Auto,*">
+                            RowDefinitions="Auto,30,*">
                             <Label
                                 Grid.Row="0"
                                 FontSize="Large"
                                 Text="{Binding ArticleId}" />
                             <Label
-                                x:Name="WikiTextLabel"
                                 Grid.Row="1"
+                                FontSize="Caption"
+                                Text="{Binding PredecessorArticleText}" />
+                            <Label
+                                x:Name="WikiTextLabel"
+                                Grid.Row="2"
                                 Text="{Binding Text}"
                                 TextType="Html" />
                         </Grid>

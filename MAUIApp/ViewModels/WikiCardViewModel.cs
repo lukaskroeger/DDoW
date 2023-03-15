@@ -13,4 +13,5 @@ public class WikiCardViewModel
     public WikiArticle Article { get => _article; }
     public string ArticleId { get => _article.Id; }
     public string Text { get; }
+    public string? PredecessorArticleText { get => $"Source: {_article.PredecessorArticleId}"; }
 }

@@ -12,9 +12,26 @@
         <Label
             FontSize="Medium"
             HorizontalOptions="Start"
-            Text="Recommendation Service Url:"
+            Text="Recommendation Service Url"
             VerticalOptions="Center" />
-        <Entry ClearButtonVisibility="WhileEditing" Text="{Binding SimilarityServiceUri}" />
+        <Entry
+            ClearButtonVisibility="WhileEditing"
+            Text="{Binding SimilarityServiceUri}"
+            WidthRequest="300" />
+
+        <Label
+            Margin="0,20,0,0"
+            FontSize="Medium"
+            HorizontalOptions="Start"
+            Text="Language" />
+        <Label Text="If you switch the language, the app will load new random cards. The current cards on the card stack will be discarded." />
+        <Picker
+            Title="Select Language"
+            Margin="0,10,0,0"
+            ItemDisplayBinding="{Binding DisplayName}"
+            ItemsSource="{Binding Languages}"
+            SelectedItem="{Binding SelectedLanguage}"
+            WidthRequest="300" />
         <Button
             Margin="0,20,0,0"
             Command="{Binding SaveSettingsCommand}"

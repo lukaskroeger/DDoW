@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="MAUIApp.Views.InteractionsPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:viewModels="clr-namespace:MAUIApp.ViewModels"
+    Title="Interactions"
+    x:DataType="viewModels:InteractionsOverviewViewModel">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem
+            x:Name="test"
+            Command="{Binding ClearInteractions}"
+            Order="Secondary"
+            Text="Clear" />
+    </ContentPage.ToolbarItems>
+    <Grid RowDefinitions="40,*">
+        <Grid ColumnDefinitions="*,Auto,*" VerticalOptions="End">
+            <Label
+                Grid.Column="0"
+                HorizontalOptions="End"
+                Text="Dislikes"
+                VerticalOptions="Center" />
+            <Switch Grid.Column="1" IsToggled="{Binding ShowLikes}" />
+            <!--  To hide the on/off text on uwp, there is a specific style in the App.xaml file of the Uwp project  -->
+            <Label
+                Grid.Column="2"
+                HorizontalOptions="Start"
+                Text="Likes"
+                VerticalOptions="Center" />
+        </Grid>
+        <CollectionView
+            Grid.Row="1"
+            ItemsSource="{Binding Interactions}"
+            VerticalScrollBarVisibility="Always">
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="viewModels:InteractionViewModel">
+                    <Border Margin="10,2,10,2">
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="20" />
+                        </Border.StrokeShape>
+                        <Border.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding OpenArticle}" NumberOfTapsRequired="1" />
+                        </Border.GestureRecognizers>
+                        <Grid
+                            Padding="10"
+                            ColumnDefinitions="*,80"
+                            RowDefinitions="Auto, 25">
+                            <Label
+                                Grid.Row="0"
+                                Grid.Column="0"
+                                FontAttributes="Bold"
+                                Text="{Binding ArticleId}" />
+                            <Label
+                                Grid.Row="1"
+                                Grid.Column="0"
+                                FontAttributes="Italic"
+                                Text="{Binding PrecedorArticleText}" />
+                            <Label
+                                Grid.Row="0"
+                                Grid.Column="1"
+                                HorizontalOptions="End"
+                                Text="{Binding Date}"
+                                VerticalOptions="End" />
+                            <Label
+                                Grid.Row="1"
+                                Grid.Column="1"
+                                HorizontalOptions="End"
+                                Text="{Binding Time}" />
+                        </Grid>
+                    </Border>
+
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+    </Grid>
+</ContentPage>
