@@ -12,8 +12,7 @@ The articles are shown in a card stack, where each card contains an excerpt of a
 
 The App uses the [Wikipedia Recommendation Service](https://github.com/lukaskroeger/wikipedia-recommendation-service). Currently that's a very simple service that simply returns articles that are linked in the "See also" section of an article. I have planned to add more ways to find recommentations in the future.
 
-The app has currently no database and thus doesn't persist any recommended articles between app starts. The recommended articles are only persisted during the execution of the app.
-This is another point I want to address in the future.
+The interactions done in the app will only be stored on the device. Thus the data is not persisted between app installs.
 
 The whole project is only a fun project I do in my free time to learn something. If you want to contribute or have any ideas or bugs, feel free to open issues.
 
@@ -21,6 +20,7 @@ The whole project is only a fun project I do in my free time to learn something.
 1. Install the app
 2. Start the app
 3. Navigate to the Settings and input the URL of a running [Wikipedia Recommendation Service](https://github.com/lukaskroeger/wikipedia-recommendation-service) instance.
+4. Set the language for the displayed wikipedia articles
 
 ## Screenshots
 ### Android
